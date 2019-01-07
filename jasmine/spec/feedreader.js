@@ -105,16 +105,18 @@ $(function() {
     describe('New Feed Selection', function(){
         var feedContact = []
         beforeEach(function(done){
-            loadFeed(0, function(){
-                feedContact.push($(".feed").text().replace(/\s+/g,""))
-                loadFeed(1, function(){
+            var feedId = 0,
+                allFeeds_length = allFeeds.length - 1;
+            allFeeds.forEach(function(){
+                loadFeed(feedId, function(){
                     feedContact.push($(".feed").text().replace(/\s+/g,""))
-                    done();
+                    feedId == allFeeds_length && done();
                 })
+                feedId++;
             })
-        }, 10000)
-
+        }, 20000)
         it('should update new feed', function (done) {
+            console.log(feedContact)
             expect(feedContact[0] != feedContact[1]).toBeTruthy()
             done();
         })
